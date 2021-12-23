@@ -1,0 +1,110 @@
+﻿@model Core.Models.LoginModel
+<div class="container-fluid">
+    <div class="animated fadeIn">
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <div class="card-group" style="-webkit-box-shadow: 0px 0px 16px 0px rgba(0,0,0,0.83); -moz-box-shadow: 0px 0px 16px 0px rgba(0,0,0,0.83); box-shadow: 0px 0px 16px 0px rgba(0,0,0,0.83);">
+                    <div class="card p-4">
+                        <div class="card-body">
+                            <h1>Login</h1>
+                            <p class="text-muted">Sign In to your account</p>
+                            <div class="form-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text">
+                                        <i class="icon-user"></i>
+                                    </span>
+                                    <input class="form-control" id="Email" asp-for="Email" type="text" placeholder="Email">
+                                </div>
+                                <span asp-validation-for="Email" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text">
+                                        <i class="icon-user"></i>
+                                    </span>
+                                    <input class="form-control" id="Password" asp-for="Password" type="password" placeholder="Password">
+                                </div>
+                                <span asp-validation-for="Password" class="text-danger"></span>
+                            </div>
+                            <div class="row">
+                                <div class="col-6">
+                                    <button class="btn px-4 text-white" style=" background-color: #474B4F" onclick="Login()" type="button">Login</button>
+                                </div>
+                                <div class="col-6 text-right">
+                                    @Html.ActionLink("Forget Password !", "ForgetPassword", "Auth")
+                                    @*<label asp-for="Input.RememberMe">
+                                            <input asp-for="Input.RememberMe" />
+                                            @Html.DisplayNameFor(m => m.Input.RememberMe)
+                                        </label>*@
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card text-black  d-md-down-none" style="width:44%; background-color:white">
+                        <div class="card-body text-center">
+                            <div>
+                                <img src="~/images/Logo.png" width="200" style=" margin-top: 50px;" />
+                                <br />
+                                <br />
+                                MUSAHM is the smart platform that will make the working life of shareholders easier and smarter than ever befor.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function Login() {
+        debugger;
+        var email = $("#Email").val();
+        var password = $("#Password").val();
+
+        var element = {}
+        element.email = email; element.password = password;
+
+        if (element.email == null || element.email == "") {
+            $("#validation").css("display", "block");
+
+            return;
+        }
+        if (element.password == null || element.password == "") {
+            $("#validation").css("display", "block");
+
+            return;
+        }
+        else {
+            $("#validation").css("display", "none");
+            $.ajax({
+                url: "https://localhost:44382/User/Login",
+                async: false,
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                type: "POST",
+                data: JSON.stringify(element),
+                success: function (data) {
+
+                    window.localStorage.setItem("Token", data.token);
+                    $.ajax({
+                        url: "https://localhost:44382/Home/CheckToken?token=" + data.token,
+                        async: false,
+                        contentType: "application/json; charset=utf-8",
+                        dataType: "json",
+                        type: "Get",
+                        data: JSON.stringify(tbl),
+                        success: function (data) {
+                            window.location.href = "/Home";
+                        }, error: function (data) { swal(' حدث خطا !!! ', 'error'); }
+
+                    });
+
+                //    window.location.href = "/Home";
+                }
+            });
+        }
+    }
+
+
+</script>

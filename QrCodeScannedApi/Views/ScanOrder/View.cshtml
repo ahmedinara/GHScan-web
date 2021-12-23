@@ -1,0 +1,250 @@
+﻿@model IEnumerable<Core.Entities.MobileScannedItem>
+@{
+    ViewData["Title"] = "Index";
+    //Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@section styles{
+
+    <link href="~/lib/datatables/css/dataTables.bootstrap4.min.css" rel="stylesheet" />
+}
+
+<div class="card mx-md-4 mx-2">
+    <div class="animated fadeIn">
+        <div class="card">
+            <div class="card-header">
+                <div class="d-flex justify-content-between">
+
+
+                    <div class="p-2"> <a class="btn btn-primary" href="/SettingConfig"> Setting</a>  <i class="icon-drop"></i> Qr Code Sanning</div>
+                    <div class="p-2"></div>
+                    <div>
+                        <button class="btn btn-primary submit" id="someid" onclick="addlist();" type="button">
+                            <span id='hidden'>Save</span>
+                        </button>
+
+
+
+                        @*<button class="btn btn-primary" onclick="getlist()">Finsh Scanning</button>*@
+                    </div>
+                </div>
+
+            </div>
+            
+            <div class="card-body">
+                <div class="mb-3 col-3">
+                    <label for="mail" class="form-label">Email address</label>
+                    <input type="email" class="form-control" id="mail" placeholder="name@example.com">
+                </div>
+                <table class="table table-striped table-bordered dt-responsive nowrap" width="100%" id="BranchTable">
+                    <thead>
+                        <tr>
+                            <th>
+                                @Html.DisplayNameFor(model => model.QrCode)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.FormatedQrCode)
+                            </th>
+
+                        </tr>
+                    </thead>
+                    <tbody id="tableId">
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.QrCode)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.FormatedQrCode)
+                                </td>
+
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+                @*<div id="myModal"  class="modal"   tabindex="-1" role="dialog">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Modal title</h5>
+
+                    </div>
+                    <div class="spinner-border" role="status">
+                        <span class="sr-only">Loading...</span>
+                    </div>
+
+                </div>
+            </div>
+        </div>*@
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(document).ready(function () {
+        $('#BranchTable').DataTable({
+            "scrollX": true,
+            "dom": 'Bfrtip',
+            "buttons": [
+                {
+                    extend: 'excelHtml5',
+                    exportOptions: {
+                        columns: [0, 1]
+                    }
+                }
+            ]
+        });
+
+        $('.buttons-excel').addClass("btn btn-primary");
+
+    });
+
+    function saving()
+    {
+        $('.submit').attr('disabled', true);
+        let content = `<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                                Loading...`
+        $('.submit').html('');
+        $('.submit').append(content);
+    
+    }
+
+    $('#someid').on('click', function () {
+       
+        var tbl = $('#BranchTable tr:has(td)').map(function (i, v) {
+            var $td = $('td', this);
+            return {
+                QrCode: $td.eq(0).text().trim(),
+                FormatedQrCode: $td.eq(1).text().trim(),
+            }
+        }).get();
+
+        var element = tbl;
+
+
+        if (tbl.length == 0) {
+            swal({
+                title: 'Error',
+                text: "Please Insert a Qr Code",
+                icon: "error",
+                button: "ok",
+            });
+            return;
+        }
+        const urlSearchParams = new URLSearchParams(window.location.search);
+        const params = Object.fromEntries(urlSearchParams.entries());
+        $.ajax({
+            url: "/ScanOrder/View?guid=" + params.guid,
+            async: false,
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            type: "POST",
+            data: JSON.stringify(element),
+            success: function (data) {
+                if (data == "1") {
+                    var str = "";
+                    $('#tableId').html("");
+                    swal({
+                        title: 'Success',
+                        text: "Saved Successfully",
+                        icon: "success",
+                        button: "ok",
+                    });
+                    window.location.href = "/ScanOrder/successfull";
+
+                }
+                else swal({
+                    title: 'Error',
+                    text: "Something Wrong",
+                    icon: "error",
+                    button: "ok",
+                });
+            },
+
+        });
+    });
+
+    async function addlist() {
+
+        await saving();
+        //debugger;
+        var mail = $("#mail").val();
+
+        var tbl = $('#BranchTable tr:has(td)').map(function (i, v) {
+            var $td = $('td', this);
+            return {
+                QrCode: $td.eq(0).text().trim(),
+                FormatedQrCode: $td.eq(1).text().trim(),
+            }
+        }).get();
+
+        var element = tbl;
+
+
+        if (tbl.length == 0) {
+            swal({
+                title: 'Error',
+                text: "Please Insert a Qr Code",
+                icon: "error",
+                button: "ok",
+            });
+            return;
+        }
+        const urlSearchParams = new URLSearchParams(window.location.search);
+        const params = Object.fromEntries(urlSearchParams.entries());
+        $.ajax({
+            url: "/ScanOrder/View?guid=" + params.guid + "&mail=" + mail,
+            async: false,
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            type: "POST",
+            data: JSON.stringify(element),
+            success: function (data) {
+                if (data == "1") {
+                    var str = "";
+                    $('#tableId').html("");
+                    swal({
+                        title: 'Success',
+                        text: "Saved Successfully",
+                        icon: "success",
+                        button: "ok",
+                    });
+                    window.location.href = "/ScanOrder/successfull";
+
+                }
+                else swal({
+                    title: 'Error',
+                    text: "Something Wrong",
+                    icon: "error",
+                    button: "ok",
+                });
+            },
+
+        });
+    }
+
+    $(document).ajaxStart(function (event, jqXHR) {
+        $('#someid').attr('disabled', 'false');
+
+        //Show spinner
+        //$('#myModal').on('shown.bs.modal', function () {
+        //    $('#myInput').trigger('focus')
+        //})
+        //button
+        $("#spinner").css("display", "block");
+
+    });
+
+    //This is called after all the AJAX request are stopped.
+    $(document).ajaxStop(function (event, jqXHR) {
+        
+
+        $("#spinner").css("display", "none");
+
+    });
+
+   
+</script>
+

@@ -1,0 +1,166 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+}
+
+@if ((string)TempData["LoginSuccessfully"] == "Success")
+{
+    <div class="alert alert-success">
+        <strong>@TempData["LoginSuccessfullyMessage"].ToString() </strong>
+    </div>
+}
+@if ((string)TempData["ChangePassword"] == "Success")
+{
+    <div class="alert alert-success">
+        <strong>Password Update success </strong>
+    </div>
+}
+
+<div class="container-fluid">
+    <div class="animated fadeIn">
+        <div class="row" style="margin-bottom:10px">
+            <!-- /.col-->
+            <div class="col-sm-6 col-lg-3" style="margin-bottom: 10px;">
+                <div class="card text-white bg-info" style=" height: 144px;">
+                    <div class="card-body pb-0">
+                        <div class="btn-group float-right">
+                            <i class="fa fa-newspaper-o nav-icon" aria-hidden="true"></i>
+                        </div>
+                        <div class="text-value">Sold Package Count</div>
+                    </div>
+                    <div class="chart-wrapper  mx-3" style="height:90px;">
+                        <div></div>
+                        @*<canvas class="chart" id="card-chart2" height="70"></canvas>*@
+                    </div>
+                </div>
+            </div>
+            <!-- /.col-->
+            <div class="col-sm-6 col-lg-3" style="margin-bottom: 10px;">
+                <div class="card text-white bg-warning" style=" height: 144px;">
+                    <div class="card-body pb-0">
+                        <div class="btn-group float-right">
+                            <i class="fa fa-newspaper-o nav-icon" aria-hidden="true"></i>
+                        </div>
+                        <div class="text-value">Sold Package Amount</div>
+                    </div>
+                    <div class="chart-wrapper mx-3" style="height:90px;">
+                        <div></div>
+                        @*<canvas class="chart" id="card-chart3" height="70"></canvas>*@
+                    </div>
+                </div>
+            </div>
+            <!-- /.col-->
+            <div class="col-sm-6 col-lg-3" style="margin-bottom: 10px;">
+                <div class="card text-white bg-danger" style=" height: 144px;">
+                    <div class="card-body pb-0">
+                        <div class="btn-group float-right">
+                            <i class="fa fa-newspaper-o nav-icon" aria-hidden="true"></i>
+                        </div>
+                        <div class="text-value">Most Sold Package</div>
+                    </div>
+                    <div class="chart-wrapper  mx-3" style="height:90px;">
+                        <div></div>
+                        @*<canvas class="chart" id="card-chart4" height="70"></canvas>*@
+                    </div>
+                </div>
+            </div>
+            <!-- /.col-->
+            <div class="col-sm-6 col-lg-3" style="margin-bottom: 10px;">
+                <div class="card text-white bg-purple" style=" height: 144px;">
+                    <div class="card-body pb-0">
+                        <div class="btn-group float-right">
+                            <i class="fa fa-newspaper-o nav-icon" aria-hidden="true"></i>
+                        </div>
+                        <div class="text-value">Less Sold Package</div>
+                    </div>
+                    <div class="chart-wrapper  mx-3" style="height:90px;">
+                        <div></div>
+                        @*<canvas class="chart" id="card-chart4" height="70"></canvas>*@
+                    </div>
+                </div>
+            </div>
+            <!-- /.col-->
+            <div class="col-sm-6 col-lg-3" style="margin-bottom: 10px;">
+                <div class="card text-white bg-primary" style=" height: 144px;">
+                    <div class="card-body pb-0">
+                        <div class="btn-group float-right">
+                            <i class="fa fa-newspaper-o nav-icon" aria-hidden="true"></i>
+                        </div>
+                        <div class="text-value">Companies Count</div>
+                    </div>
+                    <div class="chart-wrapper  mx-3" style="height:90px;">
+                        <div></div>
+                        @*<canvas class="chart" id="card-chart1" height="70"></canvas>*@
+                    </div>
+                </div>
+            </div>
+            <!-- /.col-->
+            <div class="col-sm-6 col-lg-3" style="margin-bottom: 10px;">
+                <div class="card text-white bg-facebook" style=" height: 144px;">
+                    <div class="card-body pb-0">
+                        <div class="btn-group float-right">
+                            <i class="fa fa-newspaper-o nav-icon" aria-hidden="true"></i>
+                        </div>
+                        <div class="text-value">Most Purchased Company</div>
+                    </div>
+                    <div class="chart-wrapper  mx-3" style="height:90px;">
+                        <div></div>
+                        @*<canvas class="chart" id="card-chart4" height="70"></canvas>*@
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="areaContainer">
+
+        </div>
+
+    </div>
+</div>
+
+@section Scripts {
+    <script src="~/js/JQueryFileScript.js"></script>
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
+    <script src="~/lib/coreui/js/custom-tooltips.min.js"></script>
+    @*<script>
+        (function () {
+            var warning = document.getElementsByClassName("alert alert-warning");
+            var success = document.getElementsByClassName("alert alert-success");
+
+            setTimeout(function () {
+                if (warning.length > 0) { warning[0].style.display = "none"; }
+                if (success.length > 0) { success[0].style.display = "none"; }
+            }, 5000);
+        })();
+    </script>*@
+
+    @*<script type="text/javascript">
+        window.onload = function () {
+            // --------------------------------------------------------------------------
+            var model = @Html.Raw(Json.Serialize(Model.PackageStatusAreaGraph));
+             var chart = new CanvasJS.Chart("areaContainer", {
+                theme: "light2",
+                 animationEnabled: true,
+                title: {
+                    text:"Meeting Package Status Count"
+                },
+                subtitles: [
+                    { text: "Meeting Package Status Count Graph" }
+                ],
+                data: [
+                    {
+                        type: "pie", //change type to bar, line, area, pie, etc
+                        dataPoints: model
+                    }
+                ]
+            });
+            chart.render();
+            // --------------------------------------------------------------------------
+
+
+        };
+    </script>*@
+}
+

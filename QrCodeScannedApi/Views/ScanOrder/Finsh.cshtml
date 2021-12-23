@@ -1,0 +1,27 @@
+﻿@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<input id="guid" hidden value="@ViewBag.guid" />
+<main class="h-100">
+    <div class="main-page h-100">
+        <!-- Page content -->
+        <div class="page-content p-0 h-100">
+            <div class="login row w-100 h-100 m-0 d-flex justify-content-center">
+                <div class="col-lg-6 d-flex align-items-center p-0">
+                    <div class="py-large px-4 text-right w-100">
+                        <div class="card-shadow text-center py-4 px-5 mt-2">
+                            <h6 class="text-primary mb-4 mt-3" style="font-weight: bold;font-size: 60px;">Successfully Downloading</h6>
+                        </div>
+                    </div>
+                </div>
+              
+            </div>
+        </div>
+    </div>
+</main>
+<script>
+    $(document).ready(function () {
+        window.location.href = "/ScanOrder/Csv?guid=" + $("#guid").val();
+    });
+</script>

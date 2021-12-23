@@ -1,0 +1,54 @@
+﻿@*@using AlGameia.Shared
+@using Core.Entities*@
+@*@inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor*@
+@*@inject Core.Repository.INavebarRepository navebarRepository*@
+<header class="app-header navbar text-light border-0" style="background-color: #474B4F">
+    <button class="border-0 bg-dark sidebar-toggler d-lg-none mr-auto nav-tog" type="button" data-toggle="sidebar-show">
+        <span class="navbar-toggler-icon nav-tog "></span>
+    </button>
+    <a class="navbar-brand" asp-controller="Home" asp-action="Index">
+        <img class="navbar-brand-full" src="/images/Logo.png" width="89" height="25" alt="ZKTeco Logo">
+        <img class="navbar-brand-minimized" src="/images/ZKTeco Logo ZK.png" width="30" height="20" alt="ZKTeco Logo">
+    </a>
+    <button class="border-0 bg-dark sidebar-toggler d-md-down-none nav-tog text-white" type="button" data-toggle="sidebar-lg-show">
+        <span class="navbar-toggler-icon nav-tog text-white "></span>
+    </button>
+    <ul class="nav navbar-nav d-md-down-none">
+        <li class="nav-item px-3">
+            <a class="nav-link inline-form-control" asp-controller="Home" asp-action="Index">Dashboard</a>
+        </li>
+        <li class="mx-3">
+            <a class="nav-link" asp-controller="CompanyMeetingPackage" asp-action="PendingPackages">
+                Pending Packages
+                <span class="badge badge-warning">@*@navebarRepository.GetPendingPackagesCountAsync().Result*@</span>
+            </a>
+        </li>
+    </ul>
+    <ul class="nav navbar-nav ml-auto">
+        <li class="breadcrumb-menu d-md-down-none text-light">
+            <div class="btn-group" role="group" aria-label="Button group">
+                <a class="btn font-weight-bolder" style="color:white" href="#">
+                    @*@{
+                        Admin admin = HttpContextAccessor.HttpContext.Session.GetObject<Admin>("Admin");
+                    }
+
+                    Welcom, @admin.NameEn*@
+                </a>
+            </div>
+        </li>
+        <li class="nav-item dropdown">
+            <a class="nav-link nav-link pr-4" style="font-size:20px" data-toggle="dropdown" href="/#" role="button" aria-haspopup="true" aria-expanded="false">
+                <i class="icon-settings"></i>
+            </a>
+            <div class="dropdown-menu dropdown-menu-right">
+                <a class="dropdown-item" asp-controller="Admin" asp-action="ChangePassword">
+                    <i class="fa fa-lock"></i> Change Password
+                </a>
+
+                <a class="dropdown-item" asp-controller="Auth" asp-action="Logout">
+                    <i class="fa fa-lock"></i> Logout
+                </a>
+            </div>
+        </li>
+    </ul>
+</header>

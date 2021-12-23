@@ -1,0 +1,143 @@
+﻿@*@inject Core.Repository.INavebarRepository navebarRepository*@
+<div class="sidebar">
+    <nav class="sidebar-nav">
+        <ul class="nav" style="font-size: 12px; font-weight: bold !important">
+
+
+            <li class="nav-item">
+                <a class="nav-link" asp-controller="Admin" asp-action="Index">
+                    <i class="fa fa-newspaper-o nav-icon"></i> Admins
+                </a>
+            </li>
+
+            <!--<li class="nav-item nav-dropdown">
+                <a class="nav-link nav-dropdown-toggle" href="#">
+                    <i class="fa fa-bolt nav-icon" aria-hidden="true"></i> Company Management
+                </a>
+                <ul class="nav-dropdown-items mx-2">
+
+                    <li class="nav-item">
+                        <a class="nav-link" asp-controller="Company" asp-action="Index">
+                            <i class="fa fa-newspaper-o nav-icon"></i> Companies
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" asp-controller="CompanyMeetingPackage" asp-action="Index">
+                            <i class="fa fa-newspaper-o nav-icon"></i> Meeting Packages
+                        </a>
+                    </li>
+
+                </ul>
+            </li>
+
+            <li class="nav-item">
+                <a class="nav-link" asp-controller="Employee" asp-action="Index">
+                    <i class="fa fa-newspaper-o nav-icon"></i> Employees
+                </a>
+            </li>
+
+            <li class="nav-item nav-dropdown">
+                <a class="nav-link nav-dropdown-toggle" href="#">
+                    <i class="fa fa-bolt nav-icon" aria-hidden="true"></i> Partner Management
+                </a>
+                <ul class="nav-dropdown-items mx-2">
+
+                    <li class="nav-item">
+                        <a class="nav-link" asp-controller="Partner" asp-action="Index">
+                            <i class="fa fa-newspaper-o nav-icon"></i> Partners
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" asp-controller="PartnersTitle" asp-action="Index">
+                            <i class="fa fa-newspaper-o nav-icon"></i> Partner Titles
+                        </a>
+                    </li>
+
+                </ul>
+            </li>
+
+            <li class="nav-item">
+                <a class="nav-link" asp-controller="MeetingPackage" asp-action="Index">
+                    <i class="fa fa-newspaper-o nav-icon"></i> Meeting Packages
+                </a>
+            </li>
+
+            <li class="nav-item nav-dropdown">
+                <a class="nav-link nav-dropdown-toggle" href="#">
+                    <i class="fa fa-bolt nav-icon" aria-hidden="true"></i> Configurations
+                </a>
+                <ul class="nav-dropdown-items mx-2">
+
+                    <li class="nav-item">
+                        <a class="nav-link" asp-controller="EmailType" asp-action="Index">
+                            <i class="fa fa-newspaper-o nav-icon"></i> Email Types
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" asp-controller="GeneralConfiguration" asp-action="Edit">
+                            <i class="fa fa-newspaper-o nav-icon"></i> General Configurations
+                        </a>
+                    </li>
+
+                </ul>
+            </li>
+
+            <li class="nav-item nav-dropdown">
+                <a class="nav-link nav-dropdown-toggle" href="#">
+                    <i class="fa fa-bolt nav-icon" aria-hidden="true"></i> Reports
+                </a>
+                <ul class="nav-dropdown-items mx-2">
+
+                    <li class="nav-item">
+                        <a class="nav-link" asp-controller="Reports" asp-action="Company">
+                            <i class="fa fa-newspaper-o nav-icon"></i> Companies
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" asp-controller="Reports" asp-action="CompanyEmployee">
+                            <i class="fa fa-newspaper-o nav-icon"></i> Company Employees
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" asp-controller="Reports" asp-action="CompanyPartner">
+                            <i class="fa fa-newspaper-o nav-icon"></i> Company Partners
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" asp-controller="Reports" asp-action="CompanyMeetingPackage">
+                            <i class="fa fa-newspaper-o nav-icon"></i> Company Meeting Packages
+                        </a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link" asp-controller="Reports" asp-action="PackageReport">
+                            <i class="fa fa-newspaper-o nav-icon"></i> Sold Packages
+                        </a>
+                    </li>
+
+                </ul>
+            </li>-->
+
+            @*---------------------------- For Responsive ----------------------------*@
+            <!--<li class="nav-item ForResponsive">
+                <a class="nav-link" asp-controller="CompanyMeetingPackage" asp-action="PendingPackages">
+                    <i class="fa fa-newspaper-o nav-icon"></i> Pending Packages
+                    <span class="badge badge-warning">-->@*@navebarRepository.GetPendingPackagesCountAsync().Result*@<!--</span>
+                </a>
+            </li>-->
+
+
+        </ul>
+    </nav>
+    <button class="sidebar-minimizer brand-minimizer" type="button"></button>
+</div>
+
+<style>
+    ul .nav-dropdown-items {
+        background: #707070 !important;
+    }
+
+    li {
+        padding-left: 5px !important
+    }
+</style>

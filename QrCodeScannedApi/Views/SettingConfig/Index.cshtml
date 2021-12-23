@@ -1,0 +1,56 @@
+﻿@model Core.Models.ServerSetting
+
+@{
+    ViewData["Title"] = "Index1";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-header card-header-primary">
+                    <h4 class="card-title ">Mail Setting</h4>
+                </div>
+                <div class="card-body">
+                    <form asp-action="Index">
+                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                        <div class="form-group">
+                            <label asp-for="Host" class="control-label"></label>
+                            <input asp-for="Host" class="form-control" />
+                            <span asp-validation-for="Host" class="text-danger"></span>
+                        </div>
+
+                        <div class="form-group">
+                            <label asp-for="Port" class="control-label"></label>
+                            <input asp-for="Port" class="form-control" />
+                            <span asp-validation-for="Port" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="mailTo" class="control-label"></label>
+                            <input asp-for="mailTo" class="form-control" />
+                            <span asp-validation-for="mailTo" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="mailForm" class="control-label"></label>
+                            <input asp-for="mailForm" class="form-control" />
+                            <span asp-validation-for="mailForm" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="Password" class="control-label"></label>
+                            <input asp-for="Password" class="form-control" />
+                            <span asp-validation-for="Password" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <input type="submit" value="Save" class="btn btn-primary" />
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
